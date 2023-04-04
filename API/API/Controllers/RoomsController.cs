@@ -11,10 +11,10 @@ namespace API.API.Controllers
     public class RoomsController : BaseAPIController
     {
         [HttpGet]
-        public async Task<ActionResult<List<Room>>> GetRooms()
+        public async Task<IActionResult> GetRooms()
         {
             // return HandlePagedResult(await Mediator.Send(new List.Query{Params = param}));
-            return await Mediator.Send(new List.Query());
+            return HandleResult(await Mediator.Send(new List.Query()));
         }
     }
 }

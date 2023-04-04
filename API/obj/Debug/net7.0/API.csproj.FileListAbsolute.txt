@@ -78,3 +78,14 @@
 /Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Design.dll
 /Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/Mono.TextTemplating.dll
 /Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/System.CodeDom.dll
+/Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/FluentValidation.dll
+/Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/FluentValidation.AspNetCore.dll
+/Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/FluentValidation.DependencyInjectionExtensions.dll
+/Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/Microsoft.IdentityModel.Logging.dll
+/Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/Microsoft.IdentityModel.Protocols.dll
+/Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/Microsoft.IdentityModel.Tokens.dll
+/Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/System.IdentityModel.Tokens.Jwt.dll

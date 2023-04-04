@@ -1,23 +1,29 @@
 using API.API.Extensions;
+using API.API.Middleware;
+using API.Domain;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// klo sudah ada user
-// builder.Services.AddControllers(opt => {
-//     var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-//     opt.Filters.Add(new AuthorizeFilter(policy));
-// }); // add controller tu agar bisa make controller ex: activitiescontroller
-builder.Services.AddControllers();
+// klo sudah ada user ini agar semua api harus pake token
+builder.Services.AddControllers(opt => {
+    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+    opt.Filters.Add(new AuthorizeFilter(policy));
+}); // add controller tu agar bisa make controller ex: activitiescontroller
+// klo belom ada user:
+// builder.Services.AddControllers();
 builder.Services.AddApplicationServices(builder.Configuration);
-// builder.Services.AddIdentityService(builder.Configuration);
+builder.Services.AddIdentityService(builder.Configuration);
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseMiddleware<ExceptionMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -32,6 +38,7 @@ else
 }
 app.UseCors("CorsPolicy");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
@@ -41,9 +48,9 @@ var services = scope.ServiceProvider;
 try
 {
     var context = services.GetRequiredService<DataContext>();
-    // var userManager = services.GetRequiredService<UserManager<AppUser>>();
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
     await context.Database.MigrateAsync();
-    await Seed.SeedData(context);
+    await Seed.SeedData(context, userManager);
 }
 catch (Exception ex)
 {
