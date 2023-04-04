@@ -17,6 +17,8 @@ namespace API.API.Extensions
         {
             services.AddIdentityCore<AppUser>(opt =>{ // berisi rule2 dari identity
                 opt.Password.RequireNonAlphanumeric = false; // passwordnya g perlu ada simbol2 aneh
+                opt.Password.RequireLowercase = false;
+                opt.Password.RequireUppercase = false;
                 opt.User.RequireUniqueEmail = true; // di db harus unik emailnya
             })
             .AddEntityFrameworkStores<DataContext>(); // allows us to query our user in entity framework store (db kita)
