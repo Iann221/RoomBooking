@@ -14,6 +14,12 @@ namespace Persistence
         public DbSet<Reservation> Reservations { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
+            builder.Entity<Reservation>()
+                .HasOne(a => a.Room)
+                .WithMany(c => c.Reservations)
+                .OnDelete(DeleteBehavior.Cascade); // jika activity didelete, commentsnya kedelete juga
+
         }
     }
 }
