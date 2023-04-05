@@ -11,5 +11,9 @@ namespace Persistence
         }
 
         public DbSet<Room> Rooms { get; set; } // agar bisa ngequery activities dari data context
+        public DbSet<Reservation> Reservations { get; set; }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+        }
     }
 }

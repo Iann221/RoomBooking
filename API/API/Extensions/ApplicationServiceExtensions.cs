@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Application.Core;
 using API.Application.Rooms;
+using Application.Interfaces;
+using Infrastructure.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -29,7 +32,10 @@ namespace API.API.Extensions
                 });
             });
             services.AddMediatR(typeof(List.Handler)); // registers mediator as a service. typeof mksdnya kita specify lokasi handlernya
-            // services.AddAutoMapper(typeof(MappingProfiles).Assembly); // registers mapper as a service
+            services.AddAutoMapper(typeof(MappingProfiles).Assembly); // registers mapper as a service
+            services.AddHttpContextAccessor(); // agar httpcontextaccessor bisa dipake di infrastructure project
+            services.AddScoped<IUserAccessor, UserAccessor>(); // bisa make methodnya infrastructure
+
             return services;
         }
 
