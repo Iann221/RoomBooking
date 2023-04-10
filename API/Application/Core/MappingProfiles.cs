@@ -12,6 +12,7 @@ namespace API.Application.Core
     {
         public MappingProfiles()
         {
+            CreateMap<Room, RoomDto>();
             CreateMap<Reservation, ReservationDto>()
             .ForMember(d => d.DateTime, o => o.MapFrom(s => s.ReserveTime))
             .ForMember(d => d.Username, o => o.MapFrom(s => s.Reservee))
