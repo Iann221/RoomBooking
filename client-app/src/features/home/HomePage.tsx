@@ -1,16 +1,18 @@
 import { Button, Stack } from "react-bootstrap";
-import { RootState } from "../../app/stores/store";
+import { useStore } from "../../app/stores/store";
 import { useDispatch, useSelector } from "react-redux";
 // import { decrement } from "../../app/stores/userStores";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { openModal } from "../../app/stores/modalStores";
 import LoginForm from "../users/LoginForm";
+import { observer } from "mobx-react-lite";
 
-export default function HomePage() {
-    const token = useSelector((state: RootState) => state.user.value)
-    const dispatch = useDispatch()
+export default observer(function HomePage() {
+    // const token = useSelector((state: RootState) => state.user.value)
+    // const dispatch = useDispatch()
     const navigate = useNavigate()
+    const {userStore} = useStore();
 
     return (
         <div className="masthead">
@@ -19,7 +21,7 @@ export default function HomePage() {
                     Booking Ruangan Gereja Stasi <br/>
                     Santo Theodorus Sukawarna
                 </h1>
-                {token ? (
+                {userStore.token ? (
                     <Button variant="outline-light" size='lg' style={{marginTop:25, width:200}}
                         onClick={() => navigate('/rooms')}
                     >
@@ -43,4 +45,4 @@ export default function HomePage() {
             </Stack>
         </div>
     )
-}
+})

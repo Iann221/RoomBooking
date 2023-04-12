@@ -7,17 +7,16 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import 'semantic-ui-css/semantic.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './app/layout/styles.css';
-import { Provider } from 'react-redux';
-import { store } from './app/stores/store';
+import { StoreContext, store } from './app/stores/store';
 import { RouterProvider } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <Provider store={store}>
+  <StoreContext.Provider value={store}>
     <RouterProvider router={router} />
-  </Provider> 
+  </StoreContext.Provider> 
 );
 
 // If you want to start measuring performance in your app, pass a function

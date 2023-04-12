@@ -4,35 +4,36 @@ import { Button, Header, Label } from "semantic-ui-react";
 import { UserFormValues } from "../../app/models/user";
 import agent from "../../app/api/agent";
 import { useDispatch } from "react-redux";
-import { setToken } from "../../app/stores/userStores";
 import { router } from "../../app/router/Routes";
 import MyTextInput from "../../app/common/MyTextInput";
 import { closeModal } from "../../app/stores/modalStores";
 import { useEffect } from "react";
+import { useStore } from "../../app/stores/store";
 
-export default function LoginForm() {
-    const dispatch = useDispatch()
+export default observer(function LoginForm() {
+    // const dispatch = useDispatch()
+    const {userStore} = useStore();
 
-    async function handleFormSubmit(value: UserFormValues){
-        console.log(value)
-        const user = await agent.Account.login(value)
-        // try {
-        //     const user = await agent.Account.login(value)
-        //     dispatch(setToken(user.token))
-        //     localStorage.setItem('jwt', user.token) // shared preference
-        //     router.navigate('/rooms');
-        // } catch (error) {
-        //     throw error;
-        // }
+    // async function handleFormSubmit(value: UserFormValues){
+    //     console.log(value)
+    //     const user = await agent.Account.login(value)
+    //     try {
+    //         const user = await agent.Account.login(value)
+    //         dispatch(setToken(user.token))
+    //         localStorage.setItem('jwt', user.token) // shared preference
+    //         router.navigate('/rooms');
+    //     } catch (error) {
+    //         throw error;
+    //     }
 
-    }
+    // }
 
     return (
         <div style={{display:"flex",justifyContent:"center"}}>
             <Formik     
                 initialValues={{email: '', password: '', error: null}}
-                onSubmit={(values, {setErrors})  => handleFormSubmit(values)
-                .catch(error => setErrors({error: error}))}
+                onSubmit={(values, {setErrors})  => userStore.login(values)
+                .catch(error => setErrors({error: 'Invalid email or password'}))}
             >
                 {({handleSubmit, isSubmitting, errors}) => (
                     <Form className="ui form" onSubmit={handleSubmit} autoComplete='off' style={{width:500, marginTop:50}}>
@@ -49,4 +50,4 @@ export default function LoginForm() {
             </Formik> 
         </div>
     )
-}
+})
