@@ -9,6 +9,7 @@ namespace API.API.DTO
     {
         public string RoomId { get; set; }
         public DateTime ReserveTime { get; set; }
+        public DateTime EndReserveTime { get; set; }
         public string Purpose { get; set; }
     }
 }

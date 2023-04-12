@@ -40,6 +40,7 @@ namespace API.Application.Reservations
                 var reservation = new Reservation
                 {
                     ReserveTime = request.Params.ReserveTime,
+                    EndReserveTime = request.Params.EndReserveTime,
                     Reservee = _userAccessor.GetUsername(),
                     Room = room,
                     Purpose = request.Params.Purpose,

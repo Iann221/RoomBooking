@@ -4,6 +4,8 @@ import LoadingComponent from "../../app/layout/LoadingComponent";
 import { Button, Item, Label, Segment } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
+import Calendar from "color-calendar";
+import CalendarComponent from "./CalendarComponent";
 
 export default observer(function Dashboard() {
     const {roomStore} = useStore();
@@ -17,6 +19,7 @@ export default observer(function Dashboard() {
 
     return (
         <Segment>
+            <CalendarComponent
             <Item.Group divided>
                 {/* divided: ada horizontal line */}
                 {rooms.map(room => (

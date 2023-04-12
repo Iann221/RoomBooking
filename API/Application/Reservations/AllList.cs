@@ -12,12 +12,9 @@ using Persistence;
 
 namespace API.Application.Reservations
 {
-    public class List
+    public class AllList
     {
-         public class Query : IRequest<Result<List<ReservationDto>>> 
-        {
-            public ReservationParams Params { get; set; }
-        }
+         public class Query : IRequest<Result<List<ReservationDto>>> {}
 
         public class Handler : IRequestHandler<Query, Result<List<ReservationDto>>> // nerima parameter <query, apa yg akan direturn>
         { // returns task of list of activity
@@ -33,9 +30,6 @@ namespace API.Application.Reservations
             {
                 //query clean
                 var reservations = await _context.Reservations
-                    .Where(d => d.ReserveTime >= request.Params.SelectedDate) // bwt filter, cm mau ambil date yg lebih dari hari ini
-                    .Where(d => d.ReserveTime < request.Params.SelectedDate.AddDays(1))
-                    .Where(d => d.Room.Id == Guid.Parse(request.Params.RoomId))
                     .OrderBy(d => d.ReserveTime)
                     .ProjectTo<ReservationDto>(_mapper.ConfigurationProvider)
                     .ToListAsync();

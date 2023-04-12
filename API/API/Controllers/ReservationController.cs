@@ -21,5 +21,11 @@ namespace API.API.Controllers
         {
             return HandleResult(await Mediator.Send(new Create.Command{Params = param}));
         }
+
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllReservations() 
+        {
+            return HandleResult(await Mediator.Send(new AllList.Query()));
+        }
     }
 }

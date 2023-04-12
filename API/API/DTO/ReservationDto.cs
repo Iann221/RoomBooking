@@ -9,6 +9,7 @@ namespace API.API.DTO
     {
         public Guid Id { get; set; }
         public DateTime DateTime { get; set; }
+        public DateTime EndDateTime { get; set; }
         public string Username { get; set; }
         public string Purpose { get; set; }
     }
