@@ -20,6 +20,11 @@ namespace API.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateReservation([FromBody]ReserveRequestDto param) 
         {
+            if (param.EndReserveTime <= param.ReserveTime)
+            { // cek apakah ada matching username
+                ModelState.AddModelError("reserveTime","waktu end tidak bisa lebih kecil dari waktu start"); //(key, value)
+                return ValidationProblem();
+            }
             return HandleResult(await Mediator.Send(new Create.Command{Params = param}));
         }
 
@@ -36,6 +41,11 @@ namespace API.API.Controllers
 
         [HttpPut("{id}")]
         public async Task<IActionResult> EditReservation(Guid id, ReserveRequestDto reservation){
+            if (reservation.EndReserveTime <= reservation.ReserveTime)
+            { // cek apakah ada matching username
+                ModelState.AddModelError("time","waktu end tidak bisa lebih kecil dari waktu start"); //(key, value)
+                return ValidationProblem();
+            }
             return HandleResult(await Mediator.Send(new Edit.Command{Id = id, Reservation = reservation}));
         }
     }

@@ -1,5 +1,5 @@
-import { Form, Formik } from "formik";
-import { Button, Header, Segment } from "semantic-ui-react";
+import { ErrorMessage, Form, Formik, FormikErrors } from "formik";
+import { Button, Header, Label, Segment } from "semantic-ui-react";
 import { useStore } from "../../app/stores/store";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -12,10 +12,11 @@ import MyDateInput from "../../app/common/MyDateInput";
 import MyTimePicker from "../../app/common/MyTimePicker";
 import { categoryOption } from "../../app/common/categoryOptions";
 import * as Yup from 'yup';
+import ValidationError from "../errors/ValidationError";
 
 export default observer(function ReservationForm(){
     const {reserveStore} = useStore();
-    const {createOrEditReservation, loadSelectedReservation, selectedRoomId} = reserveStore;
+    const {createOrEditReservation, loadSelectedReservation, selectedRoomId, loadingSubmit} = reserveStore;
     const {id} = useParams();
     const navigate = useNavigate();
 
@@ -34,15 +35,21 @@ export default observer(function ReservationForm(){
         }
     }, [id, setReservationfv, loadSelectedReservation]);
 
-    function handleFormSubmit(submitres: ReservationFormValues){
+    function handleFormSubmit(submitres: ReservationFormValues, setErrors: (error: any) => void){
         // walau activity.id='', tetap dihitung !activity.id
         if (!submitres.id) {
-            submitres.id = uuid()
-            submitres.roomId = selectedRoomId    
+            console.log("create reservation")
+            let newSubmitres: ReservationFormValues = {    
+                ...submitres,
+                id : uuid(),
+                roomId : selectedRoomId
+            }
+            // submitres.id = uuid()
+            // submitres.roomId = selectedRoomId
             console.log("submittres: "+ JSON.stringify(submitres))
-            createOrEditReservation(submitres, true).then(() => navigate(`/rooms/${submitres.roomId}`))
+            createOrEditReservation(newSubmitres, true).catch(error => setErrors({error: error}))
         } else {
-            createOrEditReservation(submitres, false).then(() => navigate(`/rooms/${submitres.roomId}`))
+            createOrEditReservation(submitres, false).catch(error => setErrors({error: error}))
         }
     }
 
@@ -53,9 +60,11 @@ export default observer(function ReservationForm(){
             <Formik 
                 validationSchema={validationSchema}
                 enableReinitialize 
-                initialValues={reservationfv} onSubmit={values => handleFormSubmit(values)}>
+                initialValues={{id:reservationfv.id,roomId:reservationfv.roomId,reserveTime:reservationfv.reserveTime,
+                    endReserveTime:reservationfv.endReserveTime,purpose:reservationfv.purpose,error:null}} 
+                onSubmit={(values,{setErrors}) => handleFormSubmit(values, setErrors)}>
                 {/* // enableReinitialize, dia ngeload lgi klo ngelakuin setState */}
-                {({handleSubmit, isValid, isSubmitting, dirty}) => (
+                {({handleSubmit, isValid, errors, dirty}) => (
                 <Form className='ui form' onSubmit={handleSubmit} autoComplete='off'>
                     <MyTextArea placeholder='Purpose' name='purpose' rows={3}></MyTextArea>
                     <MySelectInput placeholder='Start Time' name='reserveTime' options={categoryOption}></MySelectInput>
@@ -64,9 +73,13 @@ export default observer(function ReservationForm(){
                         name='reserveTime'
                         placeholder="Start Time"
                     ></MyTimePicker> */}
+                    <ErrorMessage
+                        name='error' render={() => <Label style={{marginBottom: 10}} 
+                        basic color='red' content={errors.error}/>}
+                    />
                     <Button 
-                        disabled={isSubmitting || !dirty || !isValid}
-                        loading={isSubmitting} floated='right' 
+                        disabled={loadingSubmit || !dirty || !isValid}
+                        loading={loadingSubmit} floated='right' 
                         positive type='submit' content='Submit'
                     />
                     <Button as={Link} to={`/rooms/${selectedRoomId}`} floated='right' type='button' content='Cancel'/>

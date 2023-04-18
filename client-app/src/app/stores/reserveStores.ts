@@ -3,6 +3,7 @@ import { Reservation } from "../models/reservation"
 import agent from "../api/agent"
 import { ReservationFormValues, ReservationFormValuesAxios } from "../models/reservationFormValues"
 import { store } from "./store"
+import { router } from "../router/Routes"
 
 export default class ReserveStore{
     reservations: Reservation[] = []
@@ -12,6 +13,7 @@ export default class ReserveStore{
     selectedRoomId: string | undefined = undefined
     loadingRoomRevs: Boolean = false
     selectedReservation: Reservation | undefined = undefined
+    loadingSubmit: boolean = false
     // utk delete
     loadingDelete = false
 
@@ -75,6 +77,7 @@ export default class ReserveStore{
     }
 
     createOrEditReservation = async (rfv: ReservationFormValues, isCreate: Boolean) => {
+        this.setLoadingSubmit(true)
         const tzoffset = (new Date()).getTimezoneOffset() * 60000;
         var startTime = new Date(
                 store.roomStore.selectedDate.getFullYear(),store.roomStore.selectedDate.getMonth(),
@@ -95,12 +98,17 @@ export default class ReserveStore{
 
         try {
             if(isCreate){
+                console.log("create reservation store " + JSON.stringify(newRes))
                 await agent.Reservations.reserve(newRes);
             } else {
                 await agent.Reservations.update(newRes)
             }
+            router.navigate(`/rooms/${rfv.roomId}`)
         } catch(error) {
-            console.log("error saat create res" + error)
+            console.log("error saat create res" + error);
+            throw error;
+        } finally {
+            this.setLoadingSubmit(false)
         }
     }
 
@@ -134,6 +142,10 @@ export default class ReserveStore{
 
     setLoadingDelete = (state: boolean) => {
         this.loadingDelete = state
+    }
+
+    setLoadingSubmit = (state: boolean) => {
+        this.loadingSubmit = state
     }
 
     setSelectedRoomId = (state: string) => {
