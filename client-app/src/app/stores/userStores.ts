@@ -58,7 +58,7 @@
 
 // export default userSlice.reducer
 
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable, reaction, runInAction } from "mobx";
 import agent from "../api/agent";
 import { User, UserFormValues } from "../models/user";
 import { router } from "../router/Routes";
@@ -66,16 +66,32 @@ import { store } from "./store";
 
 export default class UserStore {
     token: string | null = localStorage.getItem('jwt');
+    username: string | null = null
+    appLoaded = false;
 
     constructor() {
         makeAutoObservable(this)
+        reaction( // dia hanya jalan kalo value token changes, tapi ga pas lagi initiate. cth pas user login/logout
+            () => this.token, // we tell it we want to react to the token
+            token =>{
+                if(token){
+                    localStorage.setItem('jwt', token) // shared preference
+                } else {
+                    localStorage.removeItem('jwt')
+                }
+            }
+        )
+    }
+
+    get isLoggedIn(){
+        return !!this.username
     }
 
     login = async (creds: UserFormValues) => {
         try {
             const user = await agent.Account.login(creds);
             this.token = user.token;
-            localStorage.setItem('jwt', user.token)
+            this.username = user.username
             router.navigate('/rooms');
         } catch (error) {
             throw error; // dilempar ke onSubmitnya LoginForm.tsx
@@ -85,5 +101,18 @@ export default class UserStore {
     logout = () => {
         this.token = null;
         router.navigate('/');
+    }
+
+    getUser = async () => {
+        try{
+            const user = await agent.Account.getUser();
+            runInAction(() => this.username = user.username);
+        } catch(error) {
+            console.log(error);
+        }
+    }
+
+    setApploaded(){
+        this.appLoaded = true;
     }
 }

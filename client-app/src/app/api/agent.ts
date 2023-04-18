@@ -5,6 +5,8 @@ import { router } from "../router/Routes";
 import { toast } from "react-toastify";
 import { UserFormValues, User } from "../models/user";
 import { Room } from "../models/room";
+import { Reservation } from "../models/reservation";
+import { ReservationFormValuesAxios } from "../models/reservationFormValues";
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -19,17 +21,13 @@ axios.interceptors.request.use(config => { //apa yang dilakukan saat api request
     // if(token && config.headers) config.headers.Authorization = `Bearer ${token}`;
     const token = store.userStore.token;
     if(token && config.headers) config.headers.Authorization = `Bearer ${token}`;
-    console.log(token);
-    console.log("sebelum")
     return config;
 }) 
 
 axios.interceptors.response.use(async response => { // interceptor: apa yg dilakukan klo api selesai
     await sleep(1000)
-    console.log(response.data)
     return response;
 }, (error: AxiosError) => { // setelah koma, itu deals when a request is rejected
-    console.log("sesudah error")
     const {data, status, config} = error.response as AxiosResponse;
     switch (status) {
         case 400:
@@ -43,7 +41,6 @@ axios.interceptors.response.use(async response => { // interceptor: apa yg dilak
                         modalStateErrors.push(data.errors[key]);
                     }
                 }
-                console.log(modalStateErrors.flat())
                 throw modalStateErrors.flat(); // ngirim jadi satu array. throw
             } else {
                 toast.error(data); // kalo 400 doang tanpa data2 errors
@@ -77,16 +74,26 @@ const request = {
 }
 
 const Account = {
-    login: (user: UserFormValues) => request.post<User>('/account/login',user)
+    login: (user: UserFormValues) => request.post<User>('/account/login',user),
+    getUser: () => request.get<User>('/account')
 }
 
 const Rooms = {
     getRooms: (params: URLSearchParams) => axios.get<Room[]>('/rooms',{params}).then(responseBody)
 }
 
+const Reservations = {
+    getAllReservations: () => request.get<Reservation[]>('/reservation/all'),
+    getRoomReservations: (params: URLSearchParams) => axios.get<Reservation[]>('/reservation',{params}).then(responseBody),
+    reserve: (reserve: ReservationFormValuesAxios) => request.post<Reservation>('/reservation',reserve),
+    update: (reserve: ReservationFormValuesAxios) => request.put(`/reservation/${reserve.id}`, reserve),
+    delete: (id: string) => request.del(`/reservation/${id}`)
+}
+
 const agent = {
     Account,
-    Rooms
+    Rooms,
+    Reservations
 }
 
 export default agent;

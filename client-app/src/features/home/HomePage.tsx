@@ -21,7 +21,7 @@ export default observer(function HomePage() {
                     Booking Ruangan Gereja Stasi <br/>
                     Santo Theodorus Sukawarna
                 </h1>
-                {userStore.token ? (
+                {userStore.username ? (
                     <Button variant="outline-light" size='lg' style={{marginTop:25, width:200}}
                         onClick={() => navigate('/rooms')}
                     >

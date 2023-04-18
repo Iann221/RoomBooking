@@ -4,7 +4,7 @@ import agent from "../api/agent";
 
 export default class RoomStore {
     rooms: Room[] = []
-    selectedDate: Date = new Date("2023-04-19"); 
+    selectedDate: Date = new Date(new Date().setHours(0,0,0,0)); 
     loading: boolean = false
 
     constructor() {
@@ -19,19 +19,20 @@ export default class RoomStore {
 
     get axiosParams() {
         const params = new URLSearchParams()
-        params.append('selectedDate',this.selectedDate.toISOString());
+        const tzoffset = (new Date()).getTimezoneOffset() * 60000;
+        params.append('selectedDate',(new Date(this.selectedDate.getTime() - tzoffset)).toISOString());
+        console.log("loadroom date " + (new Date(this.selectedDate.getTime() - tzoffset)).toISOString())
         return params;
     }
 
     loadRooms = async () => {
-        console.log("load rooms")
         this.setLoading(true);
         try {
             const result = await agent.Rooms.getRooms(this.axiosParams);
             this.setRooms(result)
-            this.setLoading(false);
         } catch(error) {
             console.log(error);
+        } finally {
             this.setLoading(false);
         }
     }
@@ -43,4 +44,9 @@ export default class RoomStore {
     setRooms = (state: Room[]) => {
         this.rooms = state
     }
+
+    setDate = (state: Date) => {
+        this.selectedDate = state
+    }
+
 }

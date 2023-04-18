@@ -4,46 +4,91 @@ import LoadingComponent from "../../app/layout/LoadingComponent";
 import { Button, Item, Label, Segment } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
-import Calendar from "color-calendar";
 import CalendarComponent from "./CalendarComponent";
+import { Col, Container, Row } from "react-bootstrap";
 
 export default observer(function Dashboard() {
-    const {roomStore} = useStore();
-    const {loadRooms, rooms, loading} = roomStore;
+    const {roomStore, reserveStore} = useStore();
+    const {setDate, rooms, loading} = roomStore;
+    const {loadingAll, calendarReservations, loadAllReservations} = reserveStore;
 
     useEffect(() => {
-        if(rooms.length <=1) loadRooms()
-    },[loadRooms] )
+        console.log("calres" + calendarReservations)
+        loadAllReservations()
+    },[loadAllReservations])
 
-    if(loading) return <LoadingComponent content="loading app"/>
+    function handleReservations(date: Date) {
+        setDate(new Date(date.setHours(0,0,0,0)))
+    }
 
     return (
         <Segment>
-            <CalendarComponent
+            {(!loadingAll) && (
+                <div style={{display:"flex", justifyContent:"center"}}>
+                    <CalendarComponent eventData={calendarReservations} handleChange={handleReservations}/>
+                </div>
+            )}
+            {(!loading) ? (
             <Item.Group divided>
-                {/* divided: ada horizontal line */}
-                {rooms.map(room => (
-                    // pokonya klo mau specify kita bikin elemen unik, hrs pake key 
-                    <Item key={room.id}>
-                        <Item.Content>
-                            <Item.Header as='a'>{room.title}</Item.Header>
-                            <Item.Description>
-                                <div>{room.description}</div>
-                            </Item.Description>
-                            {(room.reservations.length>0) && (
+                    {/* divided: ada horizontal line */}
+                    {rooms.map(room => (
+                        // pokonya klo mau specify kita bikin elemen unik, hrs pake key 
+                        <Item key={room.id}>
+                            <Item.Content>
+                                <Item.Header as='a'>{room.title}</Item.Header>
                                 <Item.Description>
-                                    <Label basic color='orange'>
-                                        Sudah ada yang reservasi ruangan ini
-                                    </Label>
+                                    <div>{room.description}</div>
                                 </Item.Description>
-                            )}
-                            <Item.Extra>
-                                <Button as={Link} to={`/room/${room.id}`} floated='right' color='blue'>Reserve</Button>
-                            </Item.Extra>
-                        </Item.Content>
-                    </Item>
-                ))}
-            </Item.Group>
+                                {(room.reservations.length>0) && (
+                                    <Item.Description>
+                                        <Label basic color='orange'>
+                                            Sudah ada yang reservasi ruangan ini
+                                        </Label>
+                                    </Item.Description>
+                                )}
+                                <Item.Extra>
+                                    <Button as={Link} to={`/rooms/${room.id}`} floated='right' color='blue'>Reserve</Button>
+                                </Item.Extra>
+                            </Item.Content>
+                        </Item>
+                    ))}
+                </Item.Group>
+            ) : (
+                <LoadingComponent content="loading rooms"/>
+            )}
         </Segment>
+        // <Container>
+        //     <Row>
+        //         <Col xs={9}>
+        //         <Item.Group divided>
+        //             {/* divided: ada horizontal line */}
+        //             {rooms.map(room => (
+        //                 // pokonya klo mau specify kita bikin elemen unik, hrs pake key 
+        //                 <Item key={room.id}>
+        //                     <Item.Content>
+        //                         <Item.Header as='a'>{room.title}</Item.Header>
+        //                         <Item.Description>
+        //                             <div>{room.description}</div>
+        //                         </Item.Description>
+        //                         {(room.reservations.length>0) && (
+        //                             <Item.Description>
+        //                                 <Label basic color='orange'>
+        //                                     Sudah ada yang reservasi ruangan ini
+        //                                 </Label>
+        //                             </Item.Description>
+        //                         )}
+        //                         <Item.Extra>
+        //                             <Button as={Link} to={`/room/${room.id}`} floated='right' color='blue'>Reserve</Button>
+        //                         </Item.Extra>
+        //                     </Item.Content>
+        //                 </Item>
+        //             ))}
+        //         </Item.Group>
+        //         </Col>
+        //         <Col xs={3}>
+        //         <CalendarComponent eventData={[]} handleChange={handleReservations}/>
+        //         </Col>
+        //     </Row>
+        // </Container>
     )
 })

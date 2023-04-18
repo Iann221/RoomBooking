@@ -7,7 +7,8 @@ namespace API.API.DTO
 {
     public class ReservationDto
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } 
+        public Guid RoomId { get; set; } 
         public DateTime DateTime { get; set; }
         public DateTime EndDateTime { get; set; }
         public string Username { get; set; }

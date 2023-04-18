@@ -17,18 +17,21 @@
 import { createContext, useContext } from "react";
 import UserStore from "./userStores";
 import RoomStore from "./roomStores";
+import ReserveStore from "./reserveStores";
 // tempat nyimpen semua stores kita
 
 // ini cm bikin tipe
 interface Store {
     userStore: UserStore;
     roomStore: RoomStore;
+    reserveStore: ReserveStore;
 }
 
 export const store: Store = {
 
     userStore: new UserStore(),
-    roomStore: new RoomStore()
+    roomStore: new RoomStore(),
+    reserveStore: new ReserveStore()
 }
 // context digunakan utk bisa akses store dari mana aja
 export const StoreContext = createContext(store);

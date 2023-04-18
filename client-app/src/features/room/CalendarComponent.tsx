@@ -2,10 +2,12 @@ import React from "react";
 import Calendar from "color-calendar";
 import "color-calendar/dist/css/theme-glass.css";
 import { observer } from "mobx-react-lite";
+import { Reservation } from "../../app/models/reservation";
 
 export type CalProps = {
   eventData: any[]
-  handleChange: (predicate: string, value: string | Date) => void;
+  // handleChange: (predicate: string, value: string | Date) => void;
+  handleChange: (date: Date) => void;
   // handleChange: any
 }
 
@@ -19,9 +21,9 @@ class CalendarComponent extends React.Component<CalProps> {
       calendarSize: "small",
       layoutModifiers: ["month-left-align"],
       eventsData: this.props.eventData,
-      dateChanged: (currentDate: any, events: any) => {
-        // console.log("date change", currentDate, events);
-        this.props.handleChange("true","true")
+      dateChanged: (currentDate: Date, events: any) => {
+        console.log("date change", currentDate, events);
+        this.props.handleChange(currentDate)
       },
       monthChanged: (currentDate: any, events: any) => {
         console.log("month change", currentDate, events);

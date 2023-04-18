@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.API.DTO;
 using API.Application.Reservations;
+using Application.Activities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.API.Controllers
@@ -26,6 +27,16 @@ namespace API.API.Controllers
         public async Task<IActionResult> GetAllReservations() 
         {
             return HandleResult(await Mediator.Send(new AllList.Query()));
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteReservation(Guid id){
+            return HandleResult(await Mediator.Send(new Delete.Command{Id = id}));
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditReservation(Guid id, ReserveRequestDto reservation){
+            return HandleResult(await Mediator.Send(new Edit.Command{Id = id, Reservation = reservation}));
         }
     }
 }

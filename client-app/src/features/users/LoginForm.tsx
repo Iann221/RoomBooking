@@ -14,20 +14,6 @@ export default observer(function LoginForm() {
     // const dispatch = useDispatch()
     const {userStore} = useStore();
 
-    // async function handleFormSubmit(value: UserFormValues){
-    //     console.log(value)
-    //     const user = await agent.Account.login(value)
-    //     try {
-    //         const user = await agent.Account.login(value)
-    //         dispatch(setToken(user.token))
-    //         localStorage.setItem('jwt', user.token) // shared preference
-    //         router.navigate('/rooms');
-    //     } catch (error) {
-    //         throw error;
-    //     }
-
-    // }
-
     return (
         <div style={{display:"flex",justifyContent:"center"}}>
             <Formik     

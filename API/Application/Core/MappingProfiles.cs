@@ -17,7 +17,8 @@ namespace API.Application.Core
             .ForMember(d => d.DateTime, o => o.MapFrom(s => s.ReserveTime))
             .ForMember(d => d.EndDateTime, o => o.MapFrom(s => s.EndReserveTime))
             .ForMember(d => d.Username, o => o.MapFrom(s => s.Reservee))
-            .ForMember(d => d.Purpose, o => o.MapFrom(s => s.Purpose));
+            .ForMember(d => d.Purpose, o => o.MapFrom(s => s.Purpose))
+            .ForMember(d => d.RoomId, o => o.MapFrom(s => s.Room.Id));
         }
     }
 }

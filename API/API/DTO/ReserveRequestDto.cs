@@ -7,6 +7,7 @@ namespace API.API.DTO
 {
     public class ReserveRequestDto
     {
+        public Guid Id { get; set; }
         public string RoomId { get; set; }
         public DateTime ReserveTime { get; set; }
         public DateTime EndReserveTime { get; set; }
