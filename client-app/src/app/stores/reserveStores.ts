@@ -74,7 +74,7 @@ export default class ReserveStore{
         return this.reservations.find(o => o.id === id);
     }
 
-    createReservation = async (rfv: ReservationFormValues) => {
+    createOrEditReservation = async (rfv: ReservationFormValues, isCreate: Boolean) => {
         const tzoffset = (new Date()).getTimezoneOffset() * 60000;
         var startTime = new Date(
                 store.roomStore.selectedDate.getFullYear(),store.roomStore.selectedDate.getMonth(),
@@ -94,7 +94,11 @@ export default class ReserveStore{
         }
 
         try {
-            await agent.Reservations.reserve(newRes);
+            if(isCreate){
+                await agent.Reservations.reserve(newRes);
+            } else {
+                await agent.Reservations.update(newRes)
+            }
         } catch(error) {
             console.log("error saat create res" + error)
         }
@@ -103,9 +107,10 @@ export default class ReserveStore{
     deleteReservation = async (id: string) => {
         this.setLoadingDelete(true)
         try {
-            
+            await agent.Reservations.delete(id);
+            this.setReservations([...this.reservations.filter(a => a.id !== id)])
         } catch (error) {
-            
+            console.log(error)
         } finally {
             this.setLoadingDelete(false)
         }

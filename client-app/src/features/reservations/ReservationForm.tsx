@@ -15,7 +15,7 @@ import * as Yup from 'yup';
 
 export default observer(function ReservationForm(){
     const {reserveStore} = useStore();
-    const {createReservation, loadSelectedReservation, selectedRoomId} = reserveStore;
+    const {createOrEditReservation, loadSelectedReservation, selectedRoomId} = reserveStore;
     const {id} = useParams();
     const navigate = useNavigate();
 
@@ -28,23 +28,22 @@ export default observer(function ReservationForm(){
     })
 
     useEffect(() => {
-        if(id) setReservationfv(new ReservationFormValues(loadSelectedReservation(id)))
+        if(id) {
+            console.log("editing datetime" + loadSelectedReservation(id)?.dateTime)
+            setReservationfv(new ReservationFormValues(loadSelectedReservation(id)))
+        }
     }, [id, setReservationfv, loadSelectedReservation]);
 
     function handleFormSubmit(submitres: ReservationFormValues){
-        submitres.id = uuid()
-        submitres.roomId = selectedRoomId
         // walau activity.id='', tetap dihitung !activity.id
-        // if (!submitres.id) {
-        //     let newRes = {
-        //         ...submitres,
-        //         id: uuid()
-        //     }
-        console.log("submittres: "+ JSON.stringify(submitres))
-        createReservation(submitres).then(() => navigate(`/rooms/${submitres.roomId}`))
-        // } else {
-        //     updateActivity(newRes).then(() => navigate(`/activities/${submitres.roomId}`))
-        // }
+        if (!submitres.id) {
+            submitres.id = uuid()
+            submitres.roomId = selectedRoomId    
+            console.log("submittres: "+ JSON.stringify(submitres))
+            createOrEditReservation(submitres, true).then(() => navigate(`/rooms/${submitres.roomId}`))
+        } else {
+            createOrEditReservation(submitres, false).then(() => navigate(`/rooms/${submitres.roomId}`))
+        }
     }
 
     return(

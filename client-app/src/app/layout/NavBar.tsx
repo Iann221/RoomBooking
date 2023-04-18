@@ -11,7 +11,7 @@ export default observer(function NavBar() {
     return (
         <Menu inverted fixed='top'>  
             <Container> 
-            <Menu.Item as={NavLink} to='/' header>
+            <Menu.Item as={NavLink} to='/rooms' header>
                     Back to Home
                 </Menu.Item>
                 <Menu.Item position='right'>

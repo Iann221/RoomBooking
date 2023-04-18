@@ -15,14 +15,14 @@ export const routes: RouteObject[] = [
         path: '/',
         element: <App />,
         children: [
-            // {element: <RequireAuth />,children:[
+            {element: <RequireAuth />,children:[
                 {path: '', element: <HomePage />},
                 {path: 'rooms', element: <Dashboard />},
                 {path: 'rooms/:id', element: <Details />},
                 {path: 'createReservation', element: <ReservationForm key='create'/>},
                 {path: 'manage/:id', element: <ReservationForm key='manage'/>},
                 {path: 'errors', element: <TestErrors />},
-            // ]},
+            ]},
             {path: 'login', element: <LoginForm />},
             {path: 'not-found', element: <NotFound />},
             {path: 'server-error', element: <ServerError/>},

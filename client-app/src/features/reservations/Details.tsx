@@ -47,7 +47,7 @@ export default observer(function Details(){
                                     name={res.id}
                                     loading={loadingDelete && (target === res.id)} 
                                     onClick={e => handleDeleteReservation(res.id,e)} 
-                                    color='red'>Delete
+                                    color='red' floated='right'>Delete
                                 </Button>                            
                             </Item.Extra>
                             }
