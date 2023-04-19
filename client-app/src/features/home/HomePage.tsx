@@ -2,10 +2,7 @@ import { Button, Stack } from "react-bootstrap";
 import { useStore } from "../../app/stores/store";
 import { useDispatch, useSelector } from "react-redux";
 // import { decrement } from "../../app/stores/userStores";
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { openModal } from "../../app/stores/modalStores";
-import LoginForm from "../users/LoginForm";
+import { useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 
 export default observer(function HomePage() {
@@ -35,11 +32,11 @@ export default observer(function HomePage() {
                         >
                             Login
                         </Button>
-                        <Button variant="outline-light" size='lg' style={{marginTop:25, width:200}}
+                        {/* <Button variant="outline-light" size='lg' style={{marginTop:25, width:200}}
                             // onClick={() => dispatch(decrement())}
                         >
                             Register
-                        </Button>
+                        </Button> */}
                     </Stack>
                 )}
             </Stack>

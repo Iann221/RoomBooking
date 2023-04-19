@@ -6,6 +6,7 @@ export default class RoomStore {
     rooms: Room[] = []
     selectedDate: Date = new Date(new Date().setHours(0,0,0,0)); 
     loading: boolean = false
+    hasSelectedDate: boolean = false
 
     constructor() {
         makeAutoObservable(this)
@@ -47,6 +48,10 @@ export default class RoomStore {
 
     setDate = (state: Date) => {
         this.selectedDate = state
+    }
+    
+    setHasSelectedDate = (state: boolean) => {
+        this.hasSelectedDate = state
     }
 
 }

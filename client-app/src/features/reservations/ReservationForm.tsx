@@ -13,9 +13,10 @@ import MyTimePicker from "../../app/common/MyTimePicker";
 import { categoryOption } from "../../app/common/categoryOptions";
 import * as Yup from 'yup';
 import ValidationError from "../errors/ValidationError";
+import { router } from "../../app/router/Routes";
 
 export default observer(function ReservationForm(){
-    const {reserveStore} = useStore();
+    const {reserveStore, roomStore} = useStore();
     const {createOrEditReservation, loadSelectedReservation, selectedRoomId, loadingSubmit} = reserveStore;
     const {id} = useParams();
     const navigate = useNavigate();
@@ -29,11 +30,12 @@ export default observer(function ReservationForm(){
     })
 
     useEffect(() => {
+        if(!roomStore.hasSelectedDate) navigate('/rooms')
         if(id) {
             console.log("editing datetime" + loadSelectedReservation(id)?.dateTime)
             setReservationfv(new ReservationFormValues(loadSelectedReservation(id)))
         }
-    }, [id, setReservationfv, loadSelectedReservation]);
+    }, [id, setReservationfv, loadSelectedReservation, roomStore]);
 
     function handleFormSubmit(submitres: ReservationFormValues, setErrors: (error: any) => void){
         // walau activity.id='', tetap dihitung !activity.id

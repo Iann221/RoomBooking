@@ -5,16 +5,18 @@ import LoadingComponent from "../../app/layout/LoadingComponent"
 import { SyntheticEvent, useEffect, useState } from "react"
 import { useStore } from "../../app/stores/store"
 import { Link, useParams } from "react-router-dom"
+import { router } from "../../app/router/Routes"
 
 export default observer(function Details(){
-    const {reserveStore, userStore} = useStore();
+    const {reserveStore, userStore, roomStore} = useStore();
     const {loadRoomReservation, loadingRoomRevs, reservations, loadingDelete, deleteReservation} = reserveStore;
     const {id} = useParams();
     const [target, setTarget] = useState('');
 
     useEffect(() => {
+        if(!roomStore.hasSelectedDate) router.navigate('/rooms')
         if(id) loadRoomReservation(id)
-    },[id, loadRoomReservation])
+    },[id, loadRoomReservation, roomStore])
 
     function handleDeleteReservation(id: string, e: SyntheticEvent<HTMLButtonElement>){
         setTarget(e.currentTarget.name);

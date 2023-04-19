@@ -9,7 +9,7 @@ import { Col, Container, Row } from "react-bootstrap";
 
 export default observer(function Dashboard() {
     const {roomStore, reserveStore} = useStore();
-    const {setDate, rooms, loading} = roomStore;
+    const {setDate, rooms, loading, setHasSelectedDate} = roomStore;
     const {loadingAll, calendarReservations, loadAllReservations} = reserveStore;
 
     useEffect(() => {
@@ -18,6 +18,7 @@ export default observer(function Dashboard() {
     },[loadAllReservations])
 
     function handleReservations(date: Date) {
+        setHasSelectedDate(true)
         setDate(new Date(date.setHours(0,0,0,0)))
     }
 

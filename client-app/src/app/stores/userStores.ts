@@ -100,6 +100,7 @@ export default class UserStore {
 
     logout = () => {
         this.token = null;
+        this.username = null;
         router.navigate('/');
     }
 
