@@ -49,7 +49,7 @@ namespace API.API.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<IActionResult> GetAllReservations() 
+        public async Task<IActionResult> GetAllReservations()
         {
             return HandleResult(await Mediator.Send(new AllList.Query()));
         }
