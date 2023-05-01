@@ -10,11 +10,14 @@ import { observer } from "mobx-react-lite"
 
 export default observer(function App(){
     const location = useLocation()
-    const {userStore} = useStore();
+    const {userStore, reserveStore} = useStore();
 
     useEffect(() => {
         if (userStore.token){
-          userStore.getUser().finally(() => userStore.setApploaded())
+          userStore.getUser().finally(() =>
+            reserveStore.loadAllReservations().finally(() => 
+              userStore.setApploaded())
+          )
         } else {
           userStore.setApploaded()
         }

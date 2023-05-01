@@ -5,7 +5,6 @@ import { Button, Item, Label, Segment } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import CalendarComponent from "./CalendarComponent";
-import { Col, Container, Row } from "react-bootstrap";
 
 export default observer(function Dashboard() {
     const {roomStore, reserveStore} = useStore();
@@ -29,6 +28,7 @@ export default observer(function Dashboard() {
                     <CalendarComponent eventData={calendarReservations} handleChange={handleReservations}/>
                 </div>
             )}
+            <Button as={Link} to={`/pdf`} color='yellow'>Go To PDF Download</Button>
             {(!loading) ? (
             <Item.Group divided>
                     {/* divided: ada horizontal line */}

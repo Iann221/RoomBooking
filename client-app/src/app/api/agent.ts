@@ -14,7 +14,7 @@ const sleep = (delay: number) => {
     })
 }
 
-axios.defaults.baseURL = 'http://localhost:5000/api';
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 axios.interceptors.request.use(config => { //apa yang dilakukan saat api request
     // const token = useSelector((state: RootState) => state.user.value);

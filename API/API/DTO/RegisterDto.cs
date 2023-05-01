@@ -17,5 +17,8 @@ namespace API.API.DTO
         public string Password { get; set; }
         [Required]
         public string Username { get; set; }
+        [Required]
+        [Phone]
+        public string PhoneNumber { get; set; }
     }
 }

@@ -9,6 +9,7 @@ import TestErrors from "../../features/errors/TestError";
 import Details from "../../features/reservations/Details";
 import ReservationForm from "../../features/reservations/ReservationForm";
 import RequireAuth from "./RequireAuth";
+import PdfPage from "../../features/reservations/PdfPage";
 
 export const routes: RouteObject[] = [
     {
@@ -22,6 +23,7 @@ export const routes: RouteObject[] = [
                 {path: 'createReservation', element: <ReservationForm key='create'/>},
                 {path: 'manage/:id', element: <ReservationForm key='manage'/>},
                 {path: 'errors', element: <TestErrors />},
+                {path: 'pdf', element: <PdfPage />},
             ]},
             {path: 'login', element: <LoginForm />},
             {path: 'not-found', element: <NotFound />},

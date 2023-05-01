@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx"
+import { makeAutoObservable, reaction } from "mobx"
 import { Reservation } from "../models/reservation"
 import agent from "../api/agent"
 import { ReservationFormValues, ReservationFormValuesAxios } from "../models/reservationFormValues"
@@ -16,9 +16,19 @@ export default class ReserveStore{
     loadingSubmit: boolean = false
     // utk delete
     loadingDelete = false
+    // untuk pdf
+    startFilter: Date | null = null
+    endFilter: Date | null = null
+    filteredReservations: Reservation[] = []
 
     constructor() {
         makeAutoObservable(this)
+        reaction(
+            () => [this.startFilter,this.endFilter],
+            () => {
+                this.setFilteredReservations()
+            }
+        )
     }
 
     get axiosParams() {
@@ -28,6 +38,24 @@ export default class ReserveStore{
         params.append('selectedDate',(new Date(store.roomStore.selectedDate.getTime() - tzoffset)).toISOString());
         console.log("load reservs date " + new Date(store.roomStore.selectedDate.getTime() - tzoffset).toISOString())
         return params;
+    }
+
+    setFilteredReservations = () =>{
+        if(this.startFilter != null && this.endFilter != null){
+            var temptReserve = this.reservations
+            const tzoffset = (new Date()).getTimezoneOffset() * 60000;
+            var startTime = new Date(
+                    this.startFilter.getFullYear(),this.startFilter.getMonth(),
+                    this.startFilter.getDate(), 0,0,0,0)
+            // startTime.setTime(startTime.getTime() - tzoffset)
+            var endTime = new Date( 
+                this.endFilter.getFullYear(),this.endFilter.getMonth(),
+                this.endFilter.getDate(), 23,59,59,0)
+            // endTime.setTime(endTime.getTime() - tzoffset)   
+            this.filteredReservations = temptReserve.filter(r => new Date(r.dateTime).getTime() >= startTime.getTime() && new Date(r.endDateTime).getTime() <= endTime.getTime())
+            // this.filteredReservations = this.reservations
+            console.log(startTime,endTime,new Date(this.reservations[0].dateTime).getTime(),this.filteredReservations.length);
+        }
     }
 
     loadAllReservations = async () => {
@@ -154,5 +182,13 @@ export default class ReserveStore{
 
     clearSelectedRoomId = () => {
         this.selectedRoomId = undefined
+    }
+
+    setStartFilter = (state: Date | null) => {
+        this.startFilter = state
+    }
+
+    setEndFilter = (state: Date | null) => {
+        this.endFilter = state
     }
 }

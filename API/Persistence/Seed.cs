@@ -11,7 +11,7 @@ namespace Persistence
             {
                 var users = new List<AppUser>
                 {
-                    new AppUser{UserName = "Ian", Email = "ian@test.com"},
+                    new AppUser{UserName = "Ian", Email = "ian@test.com", PhoneNumber = "087822421636"},
                 };
                 foreach (var user in users){
                     await userManager.CreateAsync(user, "Pa$$w0rd"); // create the user (user, passwordnya)
@@ -21,26 +21,31 @@ namespace Persistence
 
             if (context.Rooms.Any()) return;
             
-            var activities = new List<Room>
+            var rooms = new List<Room>
             {
                 new Room
                 {
-                    Title = "aula pastoran",
-                    Description = "ukuran ruangan gede",
+                    Title = "Ruang Rapat 1",
+                    Description = "",
                 },
                 new Room
                 {
-                    Title = "halaman gereja",
-                    Description = "outdoor",
+                    Title = "Ruang Rapat 2",
+                    Description = "",
                 },
                 new Room
                 {
-                    Title = "ruang rapat",
-                    Description = "muat 10 orang",
+                    Title = "Aula",
+                    Description = "",
+                },
+                new Room
+                {
+                    Title = "Gereja St. Theodorus",
+                    Description = "",
                 },
             };
 
-            await context.Rooms.AddRangeAsync(activities);
+            await context.Rooms.AddRangeAsync(rooms);
             await context.SaveChangesAsync();
         }
     }

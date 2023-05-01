@@ -36,12 +36,15 @@ namespace API.Application.Reservations
             public async Task<Result<ReservationDto>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var room = await _context.Rooms.FindAsync(Guid.Parse(request.Params.RoomId));
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername());
+
                 if(room == null) return null;
                 var reservation = new Reservation
                 {
                     ReserveTime = request.Params.ReserveTime,
                     EndReserveTime = request.Params.EndReserveTime,
                     Reservee = _userAccessor.GetUsername(),
+                    PhoneNumber = user.PhoneNumber,
                     Room = room,
                     Purpose = request.Params.Purpose,
                 };
