@@ -33,7 +33,8 @@ export default observer(function Details(){
                     // pokonya klo mau specify kita bikin elemen unik, hrs pake key 
                     <Item key={res.id}>
                         <Item.Content>
-                            <Item.Header as='a'>{`${res.dateTime.toLocaleString().split("T")[1].substring(0,5)} - ${res.endDateTime.toLocaleString().split("T")[1].substring(0,5)}`}</Item.Header>
+                            {/* <Item.Header as='a'>{`${res.dateTime.toLocaleString().split("T")[1].substring(0,5)} - ${res.endDateTime.toLocaleString().split("T")[1].substring(0,5)}`}</Item.Header> */}
+                            <Item.Header as='a'>{`${new String(res.dateTime.toLocaleString().split("T")[1]).substring(0,5)} - ${new String(res.endDateTime.toLocaleString().split("T")[1]).substring(0,5)}`}</Item.Header>
                             <Item.Description>
                                 <div>{res.username}</div>
                                 <div>{res.purpose}</div>
