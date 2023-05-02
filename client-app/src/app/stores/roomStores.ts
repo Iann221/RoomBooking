@@ -22,6 +22,7 @@ export default class RoomStore {
         const params = new URLSearchParams()
         const tzoffset = (new Date()).getTimezoneOffset() * 60000;
         params.append('selectedDate',(new Date(this.selectedDate.getTime() - tzoffset)).toISOString());
+        // params.append('selectedDate',(new Date(this.selectedDate.getTime())).toISOString());
         console.log("loadroom date " + (new Date(this.selectedDate.getTime() - tzoffset)).toISOString())
         return params;
     }

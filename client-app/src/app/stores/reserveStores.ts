@@ -36,6 +36,7 @@ export default class ReserveStore{
         const tzoffset = (new Date()).getTimezoneOffset() * 60000;
         params.append('roomId',this.selectedRoomId!);
         params.append('selectedDate',(new Date(store.roomStore.selectedDate.getTime() - tzoffset)).toISOString());
+        // params.append('selectedDate',(new Date(store.roomStore.selectedDate.getTime())).toISOString());
         console.log("load reservs date " + new Date(store.roomStore.selectedDate.getTime() - tzoffset).toISOString())
         return params;
     }
@@ -47,11 +48,11 @@ export default class ReserveStore{
             var startTime = new Date(
                     this.startFilter.getFullYear(),this.startFilter.getMonth(),
                     this.startFilter.getDate(), 0,0,0,0)
-            // startTime.setTime(startTime.getTime() - tzoffset)
+            startTime.setTime(startTime.getTime() - tzoffset)
             var endTime = new Date( 
                 this.endFilter.getFullYear(),this.endFilter.getMonth(),
                 this.endFilter.getDate(), 23,59,59,0)
-            // endTime.setTime(endTime.getTime() - tzoffset)   
+            endTime.setTime(endTime.getTime() - tzoffset)   
             this.filteredReservations = temptReserve.filter(r => new Date(r.dateTime).getTime() >= startTime.getTime() && new Date(r.endDateTime).getTime() <= endTime.getTime())
             // this.filteredReservations = this.reservations
             console.log(startTime,endTime,new Date(this.reservations[0].dateTime).getTime(),this.filteredReservations.length);
@@ -63,13 +64,17 @@ export default class ReserveStore{
         try {
             const allRes = await agent.Reservations.getAllReservations();
             var tempReserveCals = []
-            this.setReservations(allRes)
+            var tempAllReserveations = []
             for (var res of allRes){
                 tempReserveCals.push({
-                    start: res.dateTime,
-                    end: res.endDateTime
+                    start: new Date(res.dateTime).toISOString().replace('Z',''),
+                    end: new Date(res.endDateTime).toISOString().replace('Z','')
                   })
+                  res.dateTime = new Date(new Date(res.dateTime).toISOString().replace('Z',''))
+                  res.endDateTime = new Date(new Date(res.endDateTime).toISOString().replace('Z',''))
+                  tempAllReserveations.push(res)
             }
+            this.setReservations(tempAllReserveations)
             this.setCalendarReservations(tempReserveCals)
         } catch(error) {
             console.log(error);

@@ -23,8 +23,7 @@ namespace API.API.Extensions
             // agar bisa pake Datacontext
             services.AddDbContext<DataContext>(opt =>
             {
-                // klo pake sqlie:
-                opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
+                opt.UseNpgsql(config.GetConnectionString("DefaultConnection"));
             });
             services.AddCors(opt => {
                 opt.AddPolicy("CorsPolicy", policy => {

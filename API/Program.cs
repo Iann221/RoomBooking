@@ -41,7 +41,11 @@ app.UseCors("CorsPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseDefaultFiles(); // look inside wwwroot folder dan use it
+app.UseStaticFiles();
+
 app.MapControllers();
+app.MapFallbackToController("Index","Fallback"); // krn di fallback controller ada method Index dan nama classnya FallbackController
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "vjDLjPwKdBH8nMm0EmJWkojdHdLR9h7LVIgF4m+WQqwpSeT6ut7wuKFni+grla+plN/u77H6o7ROkyNAMYE9AA==",
+  "dgSpecHash": "BmaqFCxCcmO8t3s3X3z6lAhukAAzRAn6leDt5DXsO+QCYk45rjHWtUQ6a5VtIrQWmdjBY6bTllHDjjPQV1IxMw==",
   "success": true,
   "projectFilePath": "/Users/ian/Projects/BookingRuangan/API/API.csproj",
   "expectedPackageFiles": [
@@ -50,6 +50,8 @@
     "/Users/ian/.nuget/packages/microsoft.netcore.targets/1.1.0/microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "/Users/ian/.nuget/packages/microsoft.openapi/1.4.3/microsoft.openapi.1.4.3.nupkg.sha512",
     "/Users/ian/.nuget/packages/mono.texttemplating/2.2.1/mono.texttemplating.2.2.1.nupkg.sha512",
+    "/Users/ian/.nuget/packages/npgsql/7.0.2/npgsql.7.0.2.nupkg.sha512",
+    "/Users/ian/.nuget/packages/npgsql.entityframeworkcore.postgresql/7.0.3/npgsql.entityframeworkcore.postgresql.7.0.3.nupkg.sha512",
     "/Users/ian/.nuget/packages/sqlitepclraw.bundle_e_sqlite3/2.1.4/sqlitepclraw.bundle_e_sqlite3.2.1.4.nupkg.sha512",
     "/Users/ian/.nuget/packages/sqlitepclraw.core/2.1.4/sqlitepclraw.core.2.1.4.nupkg.sha512",
     "/Users/ian/.nuget/packages/sqlitepclraw.lib.e_sqlite3/2.1.4/sqlitepclraw.lib.e_sqlite3.2.1.4.nupkg.sha512",

@@ -89,3 +89,6 @@
 /Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 /Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/Microsoft.IdentityModel.Tokens.dll
 /Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/System.IdentityModel.Tokens.Jwt.dll
+/Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/API.staticwebassets.runtime.json
+/Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/Npgsql.dll
+/Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
