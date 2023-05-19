@@ -7,7 +7,7 @@ import { observer } from "mobx-react-lite";
 import CalendarComponent from "./CalendarComponent";
 
 export default observer(function Dashboard() {
-    const {roomStore, reserveStore} = useStore();
+    const {roomStore, reserveStore, userStore} = useStore();
     const {setDate, rooms, loading, setHasSelectedDate} = roomStore;
     const {loadingAll, calendarReservations, loadAllReservations} = reserveStore;
 

@@ -43,8 +43,9 @@ namespace API.Application.Reservations
                 {
                     ReserveTime = request.Params.ReserveTime,
                     EndReserveTime = request.Params.EndReserveTime,
-                    Reservee = _userAccessor.GetUsername(),
+                    Reservee = $"{_userAccessor.GetUsername()} - {user.Bidang}",
                     PhoneNumber = user.PhoneNumber,
+                    Email = user.Email,
                     Room = room,
                     Purpose = request.Params.Purpose,
                 };

@@ -92,3 +92,6 @@
 /Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/API.staticwebassets.runtime.json
 /Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/Npgsql.dll
 /Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
+/Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/BouncyCastle.Cryptography.dll
+/Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/MailKit.dll
+/Users/ian/Projects/BookingRuangan/API/bin/Debug/net7.0/MimeKit.dll

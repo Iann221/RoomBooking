@@ -4,6 +4,7 @@ import agent from "../api/agent"
 import { ReservationFormValues, ReservationFormValuesAxios } from "../models/reservationFormValues"
 import { store } from "./store"
 import { router } from "../router/Routes"
+import emailjs from '@emailjs/browser';
 
 export default class ReserveStore{
     reservations: Reservation[] = []
@@ -20,6 +21,8 @@ export default class ReserveStore{
     startFilter: Date | null = null
     endFilter: Date | null = null
     filteredReservations: Reservation[] = []
+    // untuk send email
+    emailTo: string = ""
 
     constructor() {
         makeAutoObservable(this)
@@ -39,6 +42,18 @@ export default class ReserveStore{
         // params.append('selectedDate',(new Date(store.roomStore.selectedDate.getTime())).toISOString());
         console.log("load reservs date " + new Date(store.roomStore.selectedDate.getTime() - tzoffset).toISOString())
         return params;
+    }
+
+    sendEmail = (subject: string, body: string) => {
+        emailjs.send("service_ak6rsik","template_1h5lnzg",{
+            subject: subject,
+            message: body,
+            }, "7AXN-y1K3I1UEtGO4")
+            .then(function(response) {
+                console.log('SUCCESS!', response.status, response.text);
+             }, function(error) {
+                console.log('FAILED...', error);
+             });
     }
 
     setFilteredReservations = () =>{
@@ -76,6 +91,10 @@ export default class ReserveStore{
             }
             this.setReservations(tempAllReserveations)
             this.setCalendarReservations(tempReserveCals)
+
+            if(store.userStore.role === "admin"){
+                store.userStore.getAllUsers();
+            }
         } catch(error) {
             console.log(error);
         } finally {
@@ -110,6 +129,20 @@ export default class ReserveStore{
     }
 
     createOrEditReservation = async (rfv: ReservationFormValues, isCreate: Boolean) => {
+        // const config = {
+        //     Host : "smtp.elasticemail.com",
+        //     Username : "booking.ruangan@yopmail.com",
+        //     Password : "A2DBC8D7D6E251A8C6C7C1625D6E2B884BD1",
+        //     Port: "2525",
+        //     To : "18218034@std.stei.itb.ac.id",
+        //     From : "vincentiannugroho@gmail.com",
+        //     Subject : "subjek2",
+        //     Body : "body2"
+        // }
+        // if(window.Email){
+        //     window.Email.send(config).then(() => alert("email sent"));
+        //     // .then(() => alert("email sent"));
+        // }
         this.setLoadingSubmit(true)
         const tzoffset = (new Date()).getTimezoneOffset() * 60000;
         var startTime = new Date(
@@ -128,13 +161,21 @@ export default class ReserveStore{
             endReserveTime: endTime,
             purpose: rfv.purpose
         }
-
         try {
             if(isCreate){
-                console.log("create reservation store " + JSON.stringify(newRes))
                 await agent.Reservations.reserve(newRes);
+                // if(store.userStore.role === "admin"){
+                //     store.userStore.sendEmail(store.userStore.email ?? "",this.emailTo,"Pembuatan reservasi",`Admin telah membuat reservasi baru`)
+                // } else {
+                this.sendEmail("Pembuatan reservasi",`${store.userStore.username} telah membuat reservasi baru`)
+                // }
             } else {
                 await agent.Reservations.update(newRes)
+                // if(store.userStore.role === "admin"){
+                //     store.userStore.sendEmail(store.userStore.email ?? "",this.emailTo,"Pengubahan reservasi",`Admin telah membuat reservasi Anda`)
+                // } else {
+                this.sendEmail("Pengubahan reservasi",`${store.userStore.username} telah mengubah reservasi`)
+                // }            
             }
             router.navigate(`/rooms/${rfv.roomId}`)
         } catch(error) {
@@ -149,6 +190,11 @@ export default class ReserveStore{
         this.setLoadingDelete(true)
         try {
             await agent.Reservations.delete(id);
+            // if(store.userStore.role === "admin"){
+            //     store.userStore.sendEmail(store.userStore.email ?? "",this.emailTo,"Penghapusan reservasi",`Admin telah menghapus reservasi Anda`)
+            // } else {
+            this.sendEmail("Penghapusan reservasi",`${store.userStore.username} telah menghapus reservasi`)
+            // } 
             this.setReservations([...this.reservations.filter(a => a.id !== id)])
         } catch (error) {
             console.log(error)
@@ -195,5 +241,9 @@ export default class ReserveStore{
 
     setEndFilter = (state: Date | null) => {
         this.endFilter = state
+    }
+
+    setEmailTo = (state: string) => {
+        this.emailTo = state;
     }
 }

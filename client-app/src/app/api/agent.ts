@@ -7,6 +7,7 @@ import { UserFormValues, User } from "../models/user";
 import { Room } from "../models/room";
 import { Reservation } from "../models/reservation";
 import { ReservationFormValuesAxios } from "../models/reservationFormValues";
+import { UserInfo } from "../models/userInfo";
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -75,7 +76,11 @@ const request = {
 
 const Account = {
     login: (user: UserFormValues) => request.post<User>('/account/login',user),
-    getUser: () => request.get<User>('/account')
+    register: (user: UserFormValues) => request.post('/account/register',user),
+    getUser: () => request.get<User>('/account'),
+    getAllUsers: () => request.get<UserInfo[]>('/account/all'),
+    edit: (user: UserFormValues, id: string) => request.put(`/account/${id}`,user),
+    delete: (id: string) => request.del(`/account/${id}`)
 }
 
 const Rooms = {

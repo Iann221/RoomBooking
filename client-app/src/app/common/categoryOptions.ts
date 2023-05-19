@@ -16,3 +16,9 @@ export const categoryOption = [
     {text: '21:00', value: 21},
     {text: '22:00', value: 22},
 ]
+
+export const roleOptions = [
+    {text: 'admin', value: 'admin'},
+    {text: 'user', value: 'user'},
+    {text: 'guest', value: 'guest'},
+]

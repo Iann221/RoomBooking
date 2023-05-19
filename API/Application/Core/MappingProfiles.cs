@@ -20,7 +20,9 @@ namespace API.Application.Core
             .ForMember(d => d.PhoneNumber, o => o.MapFrom(s => s.PhoneNumber))
             .ForMember(d => d.Purpose, o => o.MapFrom(s => s.Purpose))
             .ForMember(d => d.RoomId, o => o.MapFrom(s => s.Room.Id))
-            .ForMember(d => d.RoomName, o => o.MapFrom(s => s.Room.Title));
+            .ForMember(d => d.RoomName, o => o.MapFrom(s => s.Room.Title))
+            .ForMember(d => d.Email, o => o.MapFrom(s => s.Email));
+            CreateMap<AppUser, UserInfoDto>();
         }
     }
 }

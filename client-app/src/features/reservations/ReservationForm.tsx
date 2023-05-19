@@ -8,12 +8,8 @@ import { observer } from "mobx-react-lite";
 import {v4 as uuid} from 'uuid';
 import MyTextArea from "../../app/common/MyTextArea";
 import MySelectInput from "../../app/common/MySelectInpurt";
-import MyDateInput from "../../app/common/MyDateInput";
-import MyTimePicker from "../../app/common/MyTimePicker";
 import { categoryOption } from "../../app/common/categoryOptions";
 import * as Yup from 'yup';
-import ValidationError from "../errors/ValidationError";
-import { router } from "../../app/router/Routes";
 
 export default observer(function ReservationForm(){
     const {reserveStore, roomStore} = useStore();
@@ -39,6 +35,7 @@ export default observer(function ReservationForm(){
 
     function handleFormSubmit(submitres: ReservationFormValues, setErrors: (error: any) => void){
         // walau activity.id='', tetap dihitung !activity.id
+        
         if (!submitres.id) {
             console.log("create reservation")
             let newSubmitres: ReservationFormValues = {    
@@ -46,8 +43,6 @@ export default observer(function ReservationForm(){
                 id : uuid(),
                 roomId : selectedRoomId
             }
-            // submitres.id = uuid()
-            // submitres.roomId = selectedRoomId
             console.log("submittres: "+ JSON.stringify(submitres))
             createOrEditReservation(newSubmitres, true).catch(error => setErrors({error: error}))
         } else {
@@ -57,7 +52,6 @@ export default observer(function ReservationForm(){
 
     return(
         <Segment clearing>
-            {/* dia include konten yang floated */}
             <Header content='Reservation' sub color='teal' />
             <Formik 
                 validationSchema={validationSchema}
@@ -65,16 +59,11 @@ export default observer(function ReservationForm(){
                 initialValues={{id:reservationfv.id,roomId:reservationfv.roomId,reserveTime:reservationfv.reserveTime,
                     endReserveTime:reservationfv.endReserveTime,purpose:reservationfv.purpose,error:null}} 
                 onSubmit={(values,{setErrors}) => handleFormSubmit(values, setErrors)}>
-                {/* // enableReinitialize, dia ngeload lgi klo ngelakuin setState */}
                 {({handleSubmit, isValid, errors, dirty}) => (
                 <Form className='ui form' onSubmit={handleSubmit} autoComplete='off'>
                     <MyTextArea placeholder='Purpose' name='purpose' rows={3}></MyTextArea>
                     <MySelectInput placeholder='Start Time' name='reserveTime' options={categoryOption}></MySelectInput>
                     <MySelectInput placeholder='End Time' name='endReserveTime' options={categoryOption}></MySelectInput>
-                    {/* <MyTimePicker
-                        name='reserveTime'
-                        placeholder="Start Time"
-                    ></MyTimePicker> */}
                     <ErrorMessage
                         name='error' render={() => <Label style={{marginBottom: 10}} 
                         basic color='red' content={errors.error}/>}

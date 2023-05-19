@@ -20,5 +20,10 @@ namespace API.API.DTO
         [Required]
         [Phone]
         public string PhoneNumber { get; set; }
+        [Required]
+        public string Bidang { get; set; }
+        [Required]
+        public string Role { get; set; }
+
     }
 }

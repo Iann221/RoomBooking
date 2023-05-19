@@ -30,8 +30,8 @@ export class ReservationFormValues {
         if(reservation){
             this.id = reservation.id;
             this.roomId = reservation.roomId;
-            this.reserveTime = new Date(reservation.dateTime).getHours();
-            this.endReserveTime = new Date(reservation.endDateTime).getHours();
+            this.reserveTime = new Date(new Date(reservation.dateTime).getTime() + (new Date()).getTimezoneOffset()*60000).getHours();
+            this.endReserveTime = new Date(new Date(reservation.endDateTime).getTime() + (new Date()).getTimezoneOffset()*60000).getHours();
             this.purpose = reservation.purpose;
         }
     }

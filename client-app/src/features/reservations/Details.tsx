@@ -1,26 +1,38 @@
-import { Form, Formik } from "formik"
 import { observer } from "mobx-react-lite"
 import { Button, Header, Item, Segment } from "semantic-ui-react"
 import LoadingComponent from "../../app/layout/LoadingComponent"
 import { SyntheticEvent, useEffect, useState } from "react"
 import { useStore } from "../../app/stores/store"
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { router } from "../../app/router/Routes"
 
 export default observer(function Details(){
     const {reserveStore, userStore, roomStore} = useStore();
-    const {loadRoomReservation, loadingRoomRevs, reservations, loadingDelete, deleteReservation} = reserveStore;
+    const {loadRoomReservation, loadingRoomRevs, reservations, loadingDelete, deleteReservation, setEmailTo} = reserveStore;
     const {id} = useParams();
     const [target, setTarget] = useState('');
+    const navigate = useNavigate()
 
     useEffect(() => {
         if(!roomStore.hasSelectedDate) router.navigate('/rooms')
         if(id) loadRoomReservation(id)
     },[id, loadRoomReservation, roomStore])
 
-    function handleDeleteReservation(id: string, e: SyntheticEvent<HTMLButtonElement>){
+    function handleDeleteReservation(id: string, e: SyntheticEvent<HTMLButtonElement>, email: string){
+        setEmailTo(email);
         setTarget(e.currentTarget.name);
         deleteReservation(id);
+    }
+
+    function handleEditReservation(id: string, email: string){
+        setEmailTo(email);
+        console.log("my user email:",userStore.email)
+        navigate(`/manage/${id}`)
+    }
+
+    function handleCreateReservation(){
+        setEmailTo('')
+        navigate(`/createReservation`)
     }
     
     return(
@@ -39,17 +51,17 @@ export default observer(function Details(){
                                 <div>{res.username}</div>
                                 <div>{res.purpose}</div>
                             </Item.Description>
-                            {(res.username == userStore.username) &&
+                            {(res.username.split(" ")[0] == userStore.username || userStore.role=="admin") &&
                             <Item.Extra>
-                                <Button as={Link}
-                                    to={`/manage/${res.id}`}
+                                <Button
+                                    onClick={() => handleEditReservation(res.id,res.email)}
                                     color='orange' floated='right'>
                                     Edit
                                 </Button>
                                 <Button 
                                     name={res.id}
                                     loading={loadingDelete && (target === res.id)} 
-                                    onClick={e => handleDeleteReservation(res.id,e)} 
+                                    onClick={e => handleDeleteReservation(res.id,e,res.email)} 
                                     color='red' floated='right'>Delete
                                 </Button>                            
                             </Item.Extra>
@@ -61,11 +73,13 @@ export default observer(function Details(){
         ) : (
             <LoadingComponent content="loading reservations"/>
         )}
-        <Button as={Link} 
-            to={`/createReservation`}
+        {(userStore.role!="guest") &&
+        <Button 
+            onClick={() => handleCreateReservation()}
             color='green'>
             Create Reservation
-        </Button>  
+        </Button>
+        }  
         </Segment>
     )
 })

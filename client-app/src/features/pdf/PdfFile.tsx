@@ -28,7 +28,13 @@ const styles = StyleSheet.create({
     margin: "auto", 
     marginTop: 5, 
     fontSize: 10 
-  }
+  },
+  header: {
+    fontSize: 18,
+    marginTop: 20,
+    textAlign: "center",
+    color: "black",
+  },
 });
 
 export default observer(function PdfFile(){
@@ -39,6 +45,7 @@ export default observer(function PdfFile(){
       <PDFDownloadLink document={
           <Document>
             <Page>
+              <Text style={styles.header} fixed>Daftar Pemakaian Ruangan</Text>
               <View style={styles.table}> 
                 <View style={styles.tableRow}> 
                   <View style={styles.tableCol}> 

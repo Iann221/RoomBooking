@@ -15,7 +15,7 @@ export default observer(function HomePage() {
         <div className="masthead">
             <Stack style={{justifyContent:"center",alignItems:"center"}}>
                 <h1 style={{fontWeight:"bold", fontSize:50, color:'white'}}>
-                    Booking Ruangan Gereja Stasi <br/>
+                    Booking Ruangan Gereja Paroki <br/>
                     Santo Theodorus Sukawarna
                 </h1>
                 {userStore.username ? (
