@@ -38,9 +38,7 @@ export default observer(function RegisterForm(){
                     <MyTextInput placeholder='username' name='username' ></MyTextInput>
                     <MyTextInput placeholder='phone number' name='phonenumber' ></MyTextInput>
                     <MyTextInput placeholder='bidang' name='bidang' ></MyTextInput>
-                    {(userStore.email ==="paroki.st.theodorus@gmail.com") &&
                     <MySelectInput placeholder='role' name='role' options={roleOptions}></MySelectInput>
-                    }
                     <ErrorMessage
                         name='error' render={() => <Label style={{marginBottom: 10}} 
                         basic color='red' content={errors.error}/>}
