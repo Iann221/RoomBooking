@@ -18,6 +18,7 @@ export default class UserStore {
     loadingSubmit = false;
     loadingDelete = false;
     allUsers: UserInfo[] = []
+    selectedUser: UserInfo | undefined = undefined
 
     constructor() {
         makeAutoObservable(this)

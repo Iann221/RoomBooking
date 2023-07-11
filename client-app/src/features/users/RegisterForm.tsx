@@ -15,13 +15,15 @@ export default observer(function RegisterForm(){
         {(userStore.role=="admin") ? (
         <div style={{display:"flex",justifyContent:"center"}}> 
             <Formik 
-                initialValues={{email:"",username:"",password:"",phonenumber:"",bidang:"",role:"",error:null}} 
+                initialValues={{email:"",username:"",password:"",confirmPassword:"",phonenumber:"",bidang:"",role:"",error:null}} 
                 onSubmit={(values,{setErrors}) => userStore.register(values)
                 .catch(error => setErrors({error: error}))}
                 validationSchema={Yup.object({
-                    email: Yup.string().required(),
+                    email: Yup.string().required().email(),
                     username: Yup.string().required(),
                     password: Yup.string().required(),
+                    confirmPassword: Yup.string()
+                    .oneOf([Yup.ref('password'), undefined], 'Password tidak sama').required(),        
                     phonenumber: Yup.string().required(),
                     bidang: Yup.string().required(),
                     role: Yup.string().required(),
@@ -31,7 +33,8 @@ export default observer(function RegisterForm(){
                 <Form className='ui form' onSubmit={handleSubmit} autoComplete='off' style={{width:500, marginTop:50}}>
                     <Header as='h2' content='Register' color='teal' textAlign="center"/>
                     <MyTextInput placeholder='email' name='email' ></MyTextInput>
-                    <MyTextInput placeholder='password' name='password' ></MyTextInput>
+                    <MyTextInput type="password" placeholder='password' name='password' ></MyTextInput>
+                    <MyTextInput type="password" placeholder='confirm password' name='confirmPassword' ></MyTextInput>
                     <MyTextInput placeholder='username' name='username' ></MyTextInput>
                     <MyTextInput placeholder='phone number' name='phonenumber' ></MyTextInput>
                     <MyTextInput placeholder='bidang' name='bidang' ></MyTextInput>

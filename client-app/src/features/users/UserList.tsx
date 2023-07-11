@@ -35,7 +35,7 @@ export default observer(function Details(){
                                 <Item.Header as='a'>{`${user.userName}-${user.bidang}-${user.role}`}</Item.Header>
                                 <Item.Description>
                                     <div>{`email: ${user.email}`}</div>
-                                    <div>{`password: ${user.password}`}</div>
+                                    {/* <div>{`password: ${user.password}`}</div> */}
                                     <div>{`no. hp: ${user.phoneNumber}`}</div>
                                 </Item.Description>
                                 <Item.Extra>
@@ -58,7 +58,7 @@ export default observer(function Details(){
                     ))}
                 </Item.Group>
             ) : (
-                <LoadingComponent content="loading reservations"/>
+                <LoadingComponent content="loading users"/>
             )}
         </Segment>
         ) : (

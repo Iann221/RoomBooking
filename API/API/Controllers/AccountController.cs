@@ -86,7 +86,7 @@ namespace API.API.Controllers
         [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> EditUser(Guid id, UserRequestDto param){
-            if (await _userManager.Users.AnyAsync(x => x.Email == param.Email))
+            if (await _userManager.Users.AnyAsync(x => x.Email == param.Email && (x.Id != id.ToString())))
             {
                 ModelState.AddModelError("email","email taken"); //(key, value)
                 return ValidationProblem();
