@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Jg2CUgnxXu1G/8/muDC7KfYPqXCCC8mzt2629UUjo00=",
+  "Hash": "sbIMUUc3bj2+nG7EZvAMto9q0nadP9QGNxlNOo4qIY0=",
   "Source": "API",
   "BasePath": "_content/API",
   "Mode": "Default",
@@ -221,12 +221,12 @@
       "OriginalItemSpec": "wwwroot/static/js/787.627756db.chunk.js.map"
     },
     {
-      "Identity": "/Users/ian/Projects/BookingRuangan/API/wwwroot/static/js/main.70af26cc.js",
+      "Identity": "/Users/ian/Projects/BookingRuangan/API/wwwroot/static/js/main.a276a25b.js",
       "SourceId": "API",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/ian/Projects/BookingRuangan/API/wwwroot/",
       "BasePath": "_content/API",
-      "RelativePath": "static/js/main.70af26cc.js",
+      "RelativePath": "static/js/main.a276a25b.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -235,15 +235,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/static/js/main.70af26cc.js"
+      "OriginalItemSpec": "wwwroot/static/js/main.a276a25b.js"
     },
     {
-      "Identity": "/Users/ian/Projects/BookingRuangan/API/wwwroot/static/js/main.70af26cc.js.LICENSE.txt",
+      "Identity": "/Users/ian/Projects/BookingRuangan/API/wwwroot/static/js/main.a276a25b.js.LICENSE.txt",
       "SourceId": "API",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/ian/Projects/BookingRuangan/API/wwwroot/",
       "BasePath": "_content/API",
-      "RelativePath": "static/js/main.70af26cc.js.LICENSE.txt",
+      "RelativePath": "static/js/main.a276a25b.js.LICENSE.txt",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -252,15 +252,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/static/js/main.70af26cc.js.LICENSE.txt"
+      "OriginalItemSpec": "wwwroot/static/js/main.a276a25b.js.LICENSE.txt"
     },
     {
-      "Identity": "/Users/ian/Projects/BookingRuangan/API/wwwroot/static/js/main.70af26cc.js.map",
+      "Identity": "/Users/ian/Projects/BookingRuangan/API/wwwroot/static/js/main.a276a25b.js.map",
       "SourceId": "API",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/ian/Projects/BookingRuangan/API/wwwroot/",
       "BasePath": "_content/API",
-      "RelativePath": "static/js/main.70af26cc.js.map",
+      "RelativePath": "static/js/main.a276a25b.js.map",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -269,7 +269,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/static/js/main.70af26cc.js.map"
+      "OriginalItemSpec": "wwwroot/static/js/main.a276a25b.js.map"
     },
     {
       "Identity": "/Users/ian/Projects/BookingRuangan/API/wwwroot/static/media/brand-icons.278156e41e0ad908cf7f.woff2",

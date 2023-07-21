@@ -23,6 +23,16 @@ export default class ReserveStore{
     filteredReservations: Reservation[] = []
     // untuk send email
     emailTo: string = ""
+    roomMap = new Map([
+        ["569e3c9a-a0fc-476f-9556-4148d34ce915","Aula"	],
+        ["5c10bcd2-ed55-41fa-a321-008094134f5a","Gereja St. Theodorus"	],
+        ["6833f790-1dfe-4297-91b8-44c2f2c0023a","Ruang Rapat 1"	],
+        ["958204df-458c-4cce-af02-e2dcbe912221","Ruang Rapat 2"	],
+        ["2964b688-8534-413a-9cff-649bcd87438b","Aula"	],
+        ["e056954a-d102-4959-9289-c6667ff0325e","Gereja St. Theodorus"	],
+        ["11678bd4-9250-46cb-8a54-579fbaf6d1f2","Ruang Rapat 1"	],
+        ["485fdf40-b6d8-4023-9224-217a5b62f4a9","Ruang Rapat 2"	],
+    ])
 
     constructor() {
         makeAutoObservable(this)
@@ -129,20 +139,6 @@ export default class ReserveStore{
     }
 
     createOrEditReservation = async (rfv: ReservationFormValues, isCreate: Boolean) => {
-        // const config = {
-        //     Host : "smtp.elasticemail.com",
-        //     Username : "booking.ruangan@yopmail.com",
-        //     Password : "A2DBC8D7D6E251A8C6C7C1625D6E2B884BD1",
-        //     Port: "2525",
-        //     To : "18218034@std.stei.itb.ac.id",
-        //     From : "vincentiannugroho@gmail.com",
-        //     Subject : "subjek2",
-        //     Body : "body2"
-        // }
-        // if(window.Email){
-        //     window.Email.send(config).then(() => alert("email sent"));
-        //     // .then(() => alert("email sent"));
-        // }
         this.setLoadingSubmit(true)
         const tzoffset = (new Date()).getTimezoneOffset() * 60000;
         var startTime = new Date(
@@ -164,18 +160,14 @@ export default class ReserveStore{
         try {
             if(isCreate){
                 await agent.Reservations.reserve(newRes);
-                // if(store.userStore.role === "admin"){
-                //     store.userStore.sendEmail(store.userStore.email ?? "",this.emailTo,"Pembuatan reservasi",`Admin telah membuat reservasi baru`)
-                // } else {
-                this.sendEmail("Pembuatan reservasi",`${store.userStore.username} telah membuat reservasi baru`)
-                // }
+                this.sendEmail("Pembuatan reservasi",`${store.userStore.username} telah membuat reservasi baru: 
+                ${store.roomStore.selectedDate.getFullYear()}/${store.roomStore.selectedDate.getMonth()+1}/${store.roomStore.selectedDate.getDate()}, 
+                ${this.roomMap.get(rfv.roomId ?? "")}`)
             } else {
                 await agent.Reservations.update(newRes)
-                // if(store.userStore.role === "admin"){
-                //     store.userStore.sendEmail(store.userStore.email ?? "",this.emailTo,"Pengubahan reservasi",`Admin telah membuat reservasi Anda`)
-                // } else {
-                this.sendEmail("Pengubahan reservasi",`${store.userStore.username} telah mengubah reservasi`)
-                // }            
+                this.sendEmail("Pengubahan reservasi",`${store.userStore.username} telah mengubah reservasi
+                ${store.roomStore.selectedDate.getFullYear()}/${store.roomStore.selectedDate.getMonth()+1}/${store.roomStore.selectedDate.getDate()}, 
+                ${this.roomMap.get(rfv.roomId ?? "")}`)
             }
             router.navigate(`/rooms/${rfv.roomId}`)
         } catch(error) {
